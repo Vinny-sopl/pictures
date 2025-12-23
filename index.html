@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Photo Showcase</title>
     <style>
-        /* 1. Layout Setup */
+       
         body { 
             margin: 0; 
             padding: 0; 
@@ -20,7 +20,7 @@
             overflow: hidden; 
         }
 
-        /* 2. WELCOME OVERLAY STYLE */
+       
         #overlay {
             position: fixed;
             top: 0;
@@ -53,7 +53,7 @@
             color: black;
         }
 
-        /* 3. Main Image Container */
+     
         .slider-container {
             position: relative;
             width: 90%;
@@ -62,7 +62,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Initially hidden so it doesn't pop in before the overlay is gone */
+            
             opacity: 0;
             transition: opacity 1s ease;
         }
@@ -76,7 +76,7 @@
             object-fit: contain;
         }
 
-        /* 4. Navigation Buttons */
+       
         .nav-controls {
             margin-top: 30px;
             display: flex;
@@ -105,12 +105,12 @@
             transform: scale(1.1);
         }
 
-        /* 5. Audio Control Styling */
+       
         .audio-wrapper {
             position: absolute;
             top: 20px;
             right: 20px;
-            z-index: 110; /* Above overlay */
+            z-index: 110; 
         }
 
         #music-toggle {
@@ -122,7 +122,7 @@
             cursor: pointer;
         }
 
-        /* 6. Animations */
+        
         .fade-out {
             opacity: 0;
             transform: scale(0.95);
@@ -162,25 +162,25 @@
         const slider = document.getElementById('slider');
         const controls = document.getElementById('controls');
 
-        // FUNCTION TO START EVERYTHING
+        
         function startExperience() {
-            // Play Music (This works because it's inside a click event)
+           
             music.play();
             musicBtn.innerText = "🔇 Pause Music";
 
-            // Fade out overlay
+          
             overlay.style.opacity = '0';
             
-            // Show gallery content
+           
             slider.style.opacity = '1';
             controls.style.opacity = '1';
 
-            // Remove overlay from DOM after fade
+            
             setTimeout(() => {
                 overlay.style.display = 'none';
             }, 800);
 
-            // Initialize first image
+         
             imgElement.src = myImages[currentIndex];
         }
 
@@ -212,4 +212,5 @@
         }
     </script>
 </body>
+
 </html>
