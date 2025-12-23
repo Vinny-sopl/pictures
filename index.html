@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Photo Showcase</title>
+    <style>
+        /* 1. Layout Setup */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: #000; 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
+        }
+
+        /* 2. WELCOME OVERLAY STYLE */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.8s ease;
+        }
+
+        .start-btn {
+            background: none;
+            color: white;
+            border: 2px solid white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .start-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* 3. Main Image Container */
+        .slider-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Initially hidden so it doesn't pop in before the overlay is gone */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .main-photo {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.1);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            object-fit: contain;
+        }
+
+        /* 4. Navigation Buttons */
+        .nav-controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: white;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* 5. Audio Control Styling */
+        .audio-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 110; /* Above overlay */
+        }
+
+        #music-toggle {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.5);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 6. Animations */
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <button class="start-btn" onclick="startExperience()">Open Gallery</button>
+    </div>
+
+    <div class="audio-wrapper">
+        <button id="music-toggle" onclick="toggleMusic()">🎵 Play Music</button>
+        <audio id="bg-music" loop>
+            <source src="1223.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div class="slider-container" id="slider">
+        <img id="display-img" class="main-photo" src="" alt="Gallery Image">
+    </div>
+
+    <div class="nav-controls" id="controls">
+        <button class="btn" onclick="moveSlide(-1)">Previous</button>
+        <button class="btn" onclick="moveSlide(1)">Next</button>
+    </div>
+
+    <script>
+        const myImages = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg"];
+        let currentIndex = 0;
+        
+        const imgElement = document.getElementById('display-img');
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-toggle');
+        const overlay = document.getElementById('overlay');
+        const slider = document.getElementById('slider');
+        const controls = document.getElementById('controls');
+
+        // FUNCTION TO START EVERYTHING
+        function startExperience() {
+            // Play Music (This works because it's inside a click event)
+            music.play();
+            musicBtn.innerText = "🔇 Pause Music";
+
+            // Fade out overlay
+            overlay.style.opacity = '0';
+            
+            // Show gallery content
+            slider.style.opacity = '1';
+            controls.style.opacity = '1';
+
+            // Remove overlay from DOM after fade
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+
+            // Initialize first image
+            imgElement.src = myImages[currentIndex];
+        }
+
+        function moveSlide(direction) {
+            imgElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                currentIndex += direction;
+                
+                if (currentIndex >= myImages.length) {
+                    currentIndex = 0; 
+                } else if (currentIndex < 0) {
+                    currentIndex = myImages.length - 1; 
+                }
+
+                imgElement.src = myImages[currentIndex];
+                imgElement.classList.remove('fade-out');
+            }, 300);
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "🔇 Pause Music";
+            } else {
+                music.pause();
+                musicBtn.innerText = "🎵 Play Music";
+            }
+        }
+    </script>
+</body>
+</html>
